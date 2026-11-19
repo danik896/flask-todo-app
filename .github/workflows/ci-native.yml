@@ -1,5 +1,3 @@
-name: Flask CI Native Pipeline
-
 on:
   push:
     branches: [ "master", "main" ]
@@ -30,13 +28,16 @@ jobs:
 
     - name: Smoke test Flask server
       run: |
-        ln -s application app
+        # Создаем файл-обертку app.py, чтобы обойти циклический импорт
+        echo "from application import create_app" > app.py
+        
         python manage.py runserver -h 127.0.0.1 -p 7345 &
         SERVER_PID=$!
         sleep 5
         curl -f http://127.0.0.1:7345/ || (echo "Server failed to respond" && kill $SERVER_PID && exit 1)
         echo "Smoke test passed successfully!"
         kill $SERVER_PID
+
 
 
 
