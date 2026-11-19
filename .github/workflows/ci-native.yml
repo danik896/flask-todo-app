@@ -30,7 +30,8 @@ jobs:
 
     - name: Smoke test Flask server
       run: |
-        python manage.py runserver -h 127.0.0.1 -p 7345 &
+      export PYTHONPATH=. 
+       python manage.py runserver -h 127.0.0.1 -p 7345 &
         SERVER_PID=$!
         sleep 5
         curl -f http://127.0.0.1:7345/ || (echo "Server failed to respond" && kill $SERVER_PID && exit 1)
