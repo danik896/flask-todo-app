@@ -1,5 +1,4 @@
-name: Flask CI Native Pipeline
-
+name: Flask CI Native Pipelin
 on:
   push:
     branches: [ "master", "main" ]
@@ -8,7 +7,8 @@ on:
 
 jobs:
   build-and-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+
 
     steps:
     - name: Checkout repository
