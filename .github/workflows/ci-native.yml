@@ -9,6 +9,8 @@ on:
 jobs:
   build-and-test:
     runs-on: ubuntu-24.04
+    env:
+      PYTHONPATH: ${{ github.workspace }}
 
     steps:
     - name: Checkout repository
@@ -30,10 +32,10 @@ jobs:
 
     - name: Smoke test Flask server
       run: |
-        export PYTHONPATH=.
         python manage.py runserver -h 127.0.0.1 -p 7345 &
         SERVER_PID=$!
         sleep 5
         curl -f http://127.0.0.1:7345/ || (echo "Server failed to respond" && kill $SERVER_PID && exit 1)
         echo "Smoke test passed successfully!"
         kill $SERVER_PID
+
